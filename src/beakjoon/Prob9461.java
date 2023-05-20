@@ -5,27 +5,20 @@ import java.io.*;
 
 public class Prob9461 {
     static long[] dp = new long[101];
-
-    static void init() {
-        for (int i = 6; i <= 100; i++) dp[i] = 0;
-    }
-    static long P(int N) {
-        if (N <= 0) return 0;
-        if (dp[N] != 0) return dp[N];
-        return dp[N] = P(N - 1) + P(N - 5);
-    }
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder(100000);
-        int T = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        
         dp[1] = dp[2] = dp[3] = 1;
         dp[4] = dp[5] = 2;
-        while (T-- > 0) {
-            int N = Integer.parseInt(br.readLine());
-            init();
-            sb.append(Long.toString(P(N))).append('\n');
+        for (int i = 6; i < 101; i++)
+            dp[i] = dp[i - 1] + dp[i - 5];
+
+        int T = Integer.parseInt(br.readLine());
+        for (int i = 0; i < T; i++) {
+            sb.append(dp[Integer.parseInt(br.readLine())]).append('\n');
         }
-        System.out.println(sb);
+        System.out.println(sb.toString());
     }
 }
