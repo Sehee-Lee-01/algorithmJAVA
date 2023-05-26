@@ -11,9 +11,11 @@ public class Prob2018 {
         long sum = 0;
         int cnt = 0;
         int st = 1, ed = 1;
-        while (st != N+1) {
-            if (sum < N) sum += ed++;
-            else if (sum > N) sum -= st++;
+        while (st != N + 1) {
+            if (sum < N)
+                sum += ed++;
+            else if (sum > N)
+                sum -= st++;
             else {
                 cnt++;
                 sum -= st++;
