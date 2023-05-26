@@ -34,26 +34,30 @@ public class Prob12891 {
         for (int i = 0; i < P; i++)
             curr_cnt[dna_to_num.get(dna.charAt(i))]++;
 
+        int correct_cnt = 0;
+        for (int i = 0; i < 4; i++) {
+            if (curr_cnt[i] >= dna_cnt[i])
+                correct_cnt++;
+        }
+
         // 슬라이딩 윈도우
         int st = 0, cnt = 0;
         while (st + P <= S) {
-            boolean isRight = true;
-            for (int i = 0; i < 4; i++) {
-                if (curr_cnt[i] < dna_cnt[i]) {
-                    isRight = false;
-                    break;
-                }
-            }
-            if (isRight)
+            if (correct_cnt == 4)
                 cnt++;
 
             // 다음 칸으로 이동
             if (st == S - 1)
                 break;
+            if (curr_cnt[dna_to_num.get(dna.charAt(st))] == dna_cnt[dna_to_num.get(dna.charAt(st))])
+                correct_cnt--;
             curr_cnt[dna_to_num.get(dna.charAt(st++))]--;
+
             if (st + P > S)
                 break;
             curr_cnt[dna_to_num.get(dna.charAt(st + P - 1))]++;
+            if (curr_cnt[dna_to_num.get(dna.charAt(st + P - 1))] == dna_cnt[dna_to_num.get(dna.charAt(st + P - 1))])
+                correct_cnt++;
         }
         System.out.println(cnt);
     }
