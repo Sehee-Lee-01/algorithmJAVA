@@ -8,16 +8,15 @@ public class Prob2018 {
 
     public static void main(String[] args) throws IOException {
         int N = Integer.parseInt(sc.next());
+        long sum = 0;
         int cnt = 0;
-        for (int st = 1; st <= N; st++) {
-            long S = 0;
-            for (int ed = st; ed <= N; ed++) {
-                S += ed;
-                if(S > N) break;
-                if (S == N) {
-                    cnt++;
-                    break;
-                }
+        int st = 1, ed = 1;
+        while (st != N+1) {
+            if (sum < N) sum += ed++;
+            else if (sum > N) sum -= st++;
+            else {
+                cnt++;
+                sum -= st++;
             }
         }
         System.out.println(cnt);
