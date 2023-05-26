@@ -14,26 +14,20 @@ public class Prob1940 {
         int N = Integer.parseInt(br.readLine()), M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
         int[] m = new int[N];
-        for (int i = 0; i < N; i++) m[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++)
+            m[i] = Integer.parseInt(st.nextToken());
         Arrays.sort(m);
 
-        int st = 0, ed = 1, cnt = 0, sum = 0;
-        for (int i = 0; i < N; i++) {
-            if (m[i] > M)
-                break;
-            if (m[i] == 0)
-                continue;
-            for (int j = i + 1; j < N; j++) {
-                if (m[j] == 0)
-                    continue;
-                if (m[i] + m[j] > M)
-                    break;
-                if (m[i] + m[j] == M) {
-                    cnt++;
-                    m[i] = 0;
-                    m[j] = 0;
-                    break;
-                }
+        int st = 0, ed = N - 1, cnt = 0, sum = 0;
+        while (st < ed && st < N && ed < N) {
+            sum = m[st] + m[ed];
+            if (sum == M) {
+                cnt++;
+                m[st++] = m[ed--] = 0;
+            } else if (sum < M) {
+                st++;
+            } else {
+                ed--;
             }
         }
 
