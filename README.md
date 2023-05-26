@@ -1,29 +1,41 @@
-## Getting Started
+# 알고리즘 with JAVA
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+> vscode에서 JAVA 실행 환경을 구축하기 위헤 [JAVA 관련 확장 패키지](https://github.com/microsoft/vscode-java-dependency#manage-dependencies)를 다운로드 받아서 진행했다.
 
-## Folder Structure
+## 1. 기본 개념(자료구조, 문법 등)
 
-The workspace contains two folders by default, where:
+### 1) 위키독스
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- [점프 투 자바](https://wikidocs.net/book/31)
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+### 2) 참고 개인 블로그
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+- [alstjdwo1601님의 Java 코딩테스트 관련 팁](https://velog.io/@alstjdwo1601/Java-%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B4%80%EB%A0%A8-%ED%8C%81)
 
-## Dependency Management
+- [ryusuz님의 [JAVA] 코딩테스트용 주요 함수 모음](https://velog.io/@ryusuz/JAVA-%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%EC%A3%BC%EC%9A%94-%ED%95%A8%EC%88%98-%EB%AA%A8%EC%9D%8C)
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## 2. 학습 강의
 
-## 자바 코테 준비 계획
+### 인프런 강의
 
-### [Do it! 알고리즘 코딩테스트 with JAVA](https://inf.run/k8cA)
-- 위 강의에 나온 문제들 풀어보면서 라이브러리 감 익히기
+- [Do it! 알고리즘 코딩테스트 with JAVA](https://inf.run/k8cA)
+  - 강의에 나온 백준 문제를 먼저 풀어보고 코드를 비교하면서 공부했다.
+  - 강의 내용 말고도 다른 사람들의 풀이도 비교했다.
 
-### 프로그래머스 기출문제(Lv2~Lv3)
-- 대기업 기출문제 풀어보기
+## 3. 문제 풀이
 
-### 백준 실버 이상
-- 중상 난이도 풀어보기
+> 문제는 혼자 풀어보고 순위권에 있는 다른 코드와 비교하였다.
+
+### 1) 백준
+
+- [클래스별 문제 풀이](https://solved.ac/class) ← 주로 푼다.
+- [단계별 문제 풀이](https://www.acmicpc.net/step)
+
+### 2) 프로그래머스
+
+- [큰돌](https://www.inflearn.com/users/@kundol) 강사님 [추천 대기업 기출문제](https://school.programmers.co.kr/learn/challenges?order=acceptance_desc&partIds=37527%2C31236%2C25448%2C21366%2C20069%2C17214%2C12286%2C9317%2C22586%2C18498%2C17931%2C300%2C301&page=1&levels=2%2C3&languages=java&statuses=unsolved) 풀어보기
+
+  - 추가로 원래 C++로 코딩테스트를 준비하고 있었는데, [인프런 질문 리스트](https://www.inflearn.com/chats/832755/java%EB%A7%8C-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%BD%94%ED%85%8C-%EC%A7%88%EB%AC%B8)에서 찾았던 큰돌 강사님의 답변이 많이 도움이 되었다.
+
+- [코딩테스트 고득점 Kit](https://school.programmers.co.kr/learn/challenges?tab=algorithm_practice_kit)
+  - 코딩테스트에 자주 나오는 유형, 사람들이 많이 틀리는 유형을 간추렸다고 한다.
