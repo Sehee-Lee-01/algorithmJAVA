@@ -19,7 +19,7 @@ public class Prob1940 {
         Arrays.sort(m);
 
         int st = 0, ed = N - 1, cnt = 0, sum = 0;
-        while (st < ed && st < N && ed < N) {
+        while (st < ed) { // st<N, ed<N 경우는 신경 안써줘도 된다. 
             sum = m[st] + m[ed];
             if (sum == M) {
                 cnt++;
