@@ -13,13 +13,13 @@ public class Prob1874 {
 
     static void push() {
         stack[++top] = ++recentPushNum;
-        sb.append("+").append("\n");
+        sb.append("+\n");
     }
 
     static int pop() {
         if (top == -1)
             return -1;
-        sb.append("-").append("\n");
+        sb.append("-\n");
         return stack[top--];
     }
 
@@ -32,7 +32,7 @@ public class Prob1874 {
                 push();
             }
             if (pop() != arr[i]) {
-                System.out.println("NO");
+                System.out.println("NO\n");
                 return;
             }
         }
