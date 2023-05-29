@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class Prob1920 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
-    static StringBuffer sb = new StringBuffer();
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
@@ -25,16 +25,10 @@ public class Prob1920 {
         int M = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
-        ArrayList<Integer> Mlist = new ArrayList<>();
         for (int i = 0; i < M; i++)
-            Mlist.add(Integer.parseInt(st.nextToken()));
-
-        for (int i = 0; i < M; i++) {
-            sb.append(binarySearch(Nlist, Mlist.get(i))).append("\n");
-        }
+            sb.append(binarySearch(Nlist, Integer.parseInt(st.nextToken()))).append("\n");
 
         System.out.println(sb);
-
     }
 
     static int binarySearch(ArrayList<Integer> list, int target) {
