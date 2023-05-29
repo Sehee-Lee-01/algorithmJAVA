@@ -15,8 +15,7 @@ public class Prob2178 {
         Queue<int[]> queue = new LinkedList<>();
         // 이전 값은 사실 저장할 필요 없다.(이전 값으로 순회할 경우에는 무한 루프 발생 가능)
         // cnt 수대로 map에 각 칸에 접근한 최소 거리를 저장하자.
-        int[] start = { 0, 0, 1 };
-        queue.add(start);
+        queue.offer(new int[] { 0, 0, 1 });
         while (!queue.isEmpty()) {
             int[] front = queue.poll();
             int y = front[0];
