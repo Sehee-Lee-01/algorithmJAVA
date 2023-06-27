@@ -30,6 +30,8 @@
 
 - [클래스별 문제 풀이](https://solved.ac/class) ← 주로 푼다.
 - [단계별 문제 풀이](https://www.acmicpc.net/step)
+- [삼성 SW 역량 테스트 기출 문제](https://www.acmicpc.net/workbook/view/1152) ← 구현 위주 문제
+- [구현문제 실버](https://solved.ac/search?query=%23implementation+*s&sort=solved&direction=desc&page=1)
 
 ### 2) 프로그래머스
 
