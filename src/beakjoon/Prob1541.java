@@ -14,7 +14,9 @@ public class Prob1541 {
         nums = new int[str.length()];
         String[] split_minus = str.split("-");
         for (String e : split_minus) {
-            String[] toAdd = e.split("\\+");
+            // 두 가지 방법이 있다.
+            String[] toAdd = e.split("[+]");
+            // String[] toAdd = e.split("\\+");
             if (toAdd.length == 1) {
                 nums[num_cnt++] = Integer.parseInt(toAdd[0]);
             } else {
