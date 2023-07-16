@@ -73,16 +73,6 @@ class Line {
             return false;
         }
 
-        if (this.dy == 0 && l.dy == 0) {
-            // 둘 다 x축 평행 일때
-            if ((this.p1.y == l.p1.y) && (rangeX[0] <= rangeX[2] && rangeX[2] <= rangeX[1]
-                    || rangeX[0] <= rangeX[3] && rangeX[3] <= rangeX[1]
-                    || rangeX[2] <= rangeX[0] && rangeX[0] <= rangeX[3]
-                    || rangeX[2] <= rangeX[1] && rangeX[1] <= rangeX[3]))
-                return true;
-            return false;
-        }
-
         // 둘 다 x축 평행이 아닐 때
         // m(x-x1)+y1 = y;
         // mx-mx1 + y1 = y;
@@ -201,16 +191,3 @@ public class Prob2162 {
         System.out.println(maxNodeCnt);
     }
 }
-// A가 -인 경우 고려 못함
-// 완전히 일치하는데 범위가 다른 경우를 고려못함
-// 방정식으로 풀면 소수점 오차가 생겨서 오류가 발생할 수도 있다고한다.
-// 그래서 안 나누자니 오버플로우가 나는것 같다.
-// 방정식으로 직접 풀려하니 소수문제, 계산과정에서의 범위문제, 조건부 설정 등 많은 요건이 생겨 계속 오류가 났다.
-// 더 쉬운 방법을 찾아봐야겠다. 처음 보는 알고리즘이라고 무시하지 말고 차근차근 풀어보자.
-// 지금 이 코드는 내가 60번 트라이 하고 실패한 코드이다.
-// CCW 알고리즘으로 풀었을 땐 맞았다고 나왔다.
-// 유일하게 방정식으로 푸신 분이 한 분계셨는데 존경의 표시를 보내드린다.
-// https://steady-coding.tistory.com/112
-// 연산 초과 의심!!
-// 결국 돌고돌아 로직의 문제였다.
-// 정말 간단하게 나눌 수 있는 것 부터 나눠야겠다.
