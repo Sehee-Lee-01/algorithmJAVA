@@ -7,101 +7,115 @@ import java.util.*;
 class Point {
     double x, y;
 
-    Point(int _x, int _y) {
+    Point(double _x, double _y) {
         this.x = _x;
         this.y = _y;
     }
 
-    boolean isBiggerThan(Point o) {
-        if (this.x > o.x)
-            return true;
-        return false;
-    }
 }
 
 class Line {
     Point p1, p2;
-    double dy, dx;
+    double dy, dx, OCHA = 0.0001;
 
     Line(Point _p1, Point _p2) {
-        if (_p2.isBiggerThan(_p1)) {
-            this.p1 = _p1;
-            this.p2 = _p2;
-        } else {
-            this.p1 = _p2;
-            this.p2 = _p1;
-        }
+        this.p1 = _p1;
+        this.p2 = _p2;
         this.dy = p2.y - p1.y;
         this.dx = p2.x - p1.x;
     }
 
-    boolean checkMeetRange(Line l) {
-        if (!((this.p1.x <= l.p1.x && l.p1.x <= this.p2.x) || (this.p1.x <= l.p2.x && l.p2.x <= this.p2.x)
-                || (l.p1.x <= this.p1.x && this.p1.x <= l.p2.x)
-                || (l.p1.x <= this.p2.x && this.p2.x <= l.p2.x)))
-            return false;
-
-        double[] rangeY = { Math.min(l.p1.y, l.p2.y), Math.max(l.p1.y, l.p2.y), Math.min(this.p1.y, this.p2.y),
-                Math.max(this.p1.y, this.p2.y) };
-
-        if (!((rangeY[2] <= l.p1.y && l.p1.y <= rangeY[3]) || (rangeY[2] <= l.p2.y && l.p2.y <= rangeY[3])
-                || (rangeY[0] <= this.p1.y && this.p1.y <= rangeY[1])
-                || (rangeY[0] <= this.p2.y && this.p2.y <= rangeY[1])))
-            return false;
-        return true;
-    }
-
     boolean checkMeet(Line l) {
-        if (!checkMeetRange(l))
-            return false;
+        double[] rangeX = { Math.min(l.p1.x, l.p2.x) - OCHA,
+                Math.max(l.p1.x, l.p2.x) + OCHA,
+                Math.min(this.p1.x, this.p2.x) - OCHA,
+                Math.max(this.p1.x, this.p2.x) + OCHA };
+        double[] rangeY = { Math.min(l.p1.y, l.p2.y) - OCHA,
+                Math.max(l.p1.y, l.p2.y) + OCHA,
+                Math.min(this.p1.y, this.p2.y) - OCHA,
+                Math.max(this.p1.y, this.p2.y) + OCHA };
 
-        double a = l.dx * this.dy - this.dx * l.dy;
-        // 연산 초과 의심!!!!!!!!!!!!
-        // double ax = l.dx * this.dy * this.p1.x;
-        // ax -= this.dx * l.dy * l.p1.x;
-        // ax -= (this.p1.y - l.p1.y) * this.dx * l.dx;
-
-        // 기울기가 비슷할 때
-        if (a == 0) {
-            // 만나지 않는 단서 찾으면 false
-            if (this.dx == 0) {
-                if (this.p1.x != l.p1.x)
-                    return false;
+        if (this.dx == 0 && l.dx == 0) {
+            // 둘 다 y축 평행 일때
+            if ((this.p1.x == l.p1.x) && (rangeY[0] <= rangeY[2] && rangeY[2] <= rangeY[1]
+                    || rangeY[0] <= rangeY[3] && rangeY[3] <= rangeY[1]
+                    || rangeY[2] <= rangeY[0] && rangeY[0] <= rangeY[3]
+                    || rangeY[2] <= rangeY[1] && rangeY[1] <= rangeY[3]))
                 return true;
-            } else {
-                if (this.dy == 0) {
-                    if (this.p1.y != l.p1.y)
-                        return false;
-                    return true;
-                }
+            return false;
+        }
+        // x = a
+        // m(a-x1) +y1 = y
+        if (this.dx == 0) {
+            double m, mx, my;
+            // 자신만 평행 직선일 때
+            mx = this.p1.x;
+            if (!(rangeX[0] <= mx && mx <= rangeX[1]))
+                return false;
+            m = l.dy / l.dx;
+            my = m * (mx - l.p1.x) + l.p1.y;
+            if ((rangeY[0] <= my && my <= rangeY[1]) && (rangeY[2] <= my
+                    && my <= rangeY[3]))
+                return true;
+            return false;
+        }
+        if (l.dx == 0) {
+            double m, mx, my;
+            // l만 y축 평행 직선 일 때
+            mx = l.p1.x;
+            if (!(rangeX[2] <= mx && mx <= rangeX[3]))
+                return false;
+            m = this.dy / this.dx;
+            my = m * (mx - this.p1.x) + this.p1.y;
+            if ((rangeY[0] <= my && my <= rangeY[1]) && (rangeY[2] <= my
+                    && my <= rangeY[3]))
+                return true;
+            return false;
+        }
 
-                double tmp = (l.p1.x - -this.p1.x) * this.dy;
-                tmp /= this.dx;
-                tmp += this.p1.y - l.p1.y;
-                if (tmp != 0)
-                    return false;
+        if (this.dy == 0 && l.dy == 0) {
+            // 둘 다 x축 평행 일때
+            if ((this.p1.y == l.p1.y) && (rangeX[0] <= rangeX[2] && rangeX[2] <= rangeX[1]
+                    || rangeX[0] <= rangeX[3] && rangeX[3] <= rangeX[1]
+                    || rangeX[2] <= rangeX[0] && rangeX[0] <= rangeX[3]
+                    || rangeX[2] <= rangeX[1] && rangeX[1] <= rangeX[3]))
+                return true;
+            return false;
+        }
+
+        // 둘 다 x축 평행이 아닐 때
+        // m(x-x1)+y1 = y;
+        // mx-mx1 + y1 = y;
+        // A = y1 - mx1;
+        // mx + A = y;
+        double m1 = this.dy / this.dx;
+        double A1 = this.p1.y - m1 * this.p1.x;
+
+        double m2 = l.dy / l.dx;
+        double A2 = l.p1.y - m2 * l.p1.x;
+        if (m1 == m2) {
+            // 기울기가 같을 떄
+            if ((A1 == A2) && ((rangeX[0] <= rangeX[2] && rangeX[2] <= rangeX[1])
+                    || (rangeX[0] <= rangeX[3] && rangeX[3] <= rangeX[1])
+                    || (rangeX[2] <= rangeX[0] && rangeX[0] <= rangeX[3])
+                    || (rangeX[2] <= rangeX[1] && rangeX[1] <= rangeX[3])) &&
+                    ((rangeY[0] <= rangeY[2] && rangeY[2] <= rangeY[1])
+                            || (rangeY[0] <= rangeY[3] && rangeY[3] <= rangeY[1])
+                            || (rangeY[2] <= rangeY[0] && rangeY[0] <= rangeY[3])
+                            || (rangeY[2] <= rangeY[1] && rangeY[1] <= rangeY[3]))) {
+                // 일치하면(x,y 둘 다 겹치는지 확인)
                 return true;
             }
-
+            // 평행이면
+            return false;
         }
-        double l1 = this.dy / this.dx;
-        double l2 = l.dy / l.dx;
-
-        double mx = l1 * this.p1.x / (l1 - l2);
-        mx -= l2 * l.p1.x / (l1 - l2);
-        mx += (l.p1.y - this.p1.y) / (l1 - l2);
-        double my = l1 * (mx - this.p1.x) + this.p1.y;
-
-        double[] rangeX = { Math.min(l.p1.x, l.p2.x), Math.max(l.p1.x, l.p2.x),
-                Math.min(this.p1.x, this.p2.x),
-                Math.max(this.p1.x, this.p2.x) };
-        double[] rangeY = { Math.min(l.p1.y, l.p2.y),
-                Math.max(l.p1.y, l.p2.y),
-                Math.min(this.p1.y, this.p2.y),
-                Math.max(this.p1.y, this.p2.y) };
-
-        if ((rangeX[0] <= mx && mx <= rangeX[1] && rangeY[0] <= my && my <= rangeY[1])
-                && (rangeX[2] <= mx && mx <= rangeX[3] && rangeY[2] <= my
+        // 한 점에서 만날 때 한 점이 두 범위에 속하는지 검사
+        // x = - (A1-A2)/ (m1-m2) = X;
+        // m1*x + A1 = y; -> m1*X + A1 = y;
+        double mx = (A2 - A1) / (m1 - m2);
+        double my = m1 * mx + A1;
+        if ((rangeX[0] <= mx && mx <= rangeX[1] && rangeX[2] <= mx && mx <= rangeX[3])
+                && (rangeY[0] <= my && my <= rangeY[1] && rangeY[2] <= my
                         && my <= rangeY[3]))
             return true;
         return false;
@@ -112,8 +126,7 @@ class Line {
 public class Prob2162 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
-    static StringBuilder sb = new StringBuilder();
-    static int N, group[][];
+    static int N, group[][], grpCnt = 0, maxNodeCnt = 0, lineCnt = 0;;
     static Line line[];
 
     static void init() {
@@ -148,38 +161,35 @@ public class Prob2162 {
     }
 
     static void findRes() {
-        int grpCnt = 0;
-        int maxNodeCnt = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < lineCnt; i++) {
             if (group[i][0] == i) {
                 grpCnt++;
                 if (maxNodeCnt < group[i][1])
                     maxNodeCnt = group[i][1];
             }
         }
-        sb.append(grpCnt).append("\n");
-        sb.append(maxNodeCnt).append("\n");
     }
 
     public static void main(String[] args) throws IOException {
 
         N = Integer.parseInt(br.readLine());
         init();
-
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             // 선분 i의 정보
-            int x1 = Integer.parseInt(st.nextToken());
-            int y1 = Integer.parseInt(st.nextToken());
+            double x1 = Double.parseDouble(st.nextToken());
+            double y1 = Double.parseDouble(st.nextToken());
             Point p1 = new Point(x1, y1);
-            int x2 = Integer.parseInt(st.nextToken());
-            int y2 = Integer.parseInt(st.nextToken());
+            double x2 = Double.parseDouble(st.nextToken());
+            double y2 = Double.parseDouble(st.nextToken());
             Point p2 = new Point(x2, y2);
-            line[i] = new Line(p1, p2);
+            if (p1.x == p2.x && p1.y == p2.y)
+                continue;
+            line[lineCnt++] = new Line(p1, p2);
         }
 
-        for (int l1 = 0; l1 < N; l1++) {
-            for (int l2 = l1 + 1; l2 < N; l2++) {
+        for (int l1 = 0; l1 < lineCnt; l1++) {
+            for (int l2 = l1 + 1; l2 < lineCnt; l2++) {
                 if (line[l1].checkMeet(line[l2])) {
                     union(l1, l2);
                 }
@@ -187,7 +197,8 @@ public class Prob2162 {
         }
 
         findRes();
-        System.out.println(sb);
+        System.out.println(grpCnt);
+        System.out.println(maxNodeCnt);
     }
 }
 // A가 -인 경우 고려 못함
@@ -200,3 +211,6 @@ public class Prob2162 {
 // CCW 알고리즘으로 풀었을 땐 맞았다고 나왔다.
 // 유일하게 방정식으로 푸신 분이 한 분계셨는데 존경의 표시를 보내드린다.
 // https://steady-coding.tistory.com/112
+// 연산 초과 의심!!
+// 결국 돌고돌아 로직의 문제였다.
+// 정말 간단하게 나눌 수 있는 것 부터 나눠야겠다.
