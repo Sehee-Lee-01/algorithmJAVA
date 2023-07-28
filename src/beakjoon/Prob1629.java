@@ -45,3 +45,4 @@ public class Prob1629 {
             System.out.println("0\n");
     }
 }
+// 짝수와 제곱 헷갈리지 말자
