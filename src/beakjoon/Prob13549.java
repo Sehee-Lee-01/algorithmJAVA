@@ -1,11 +1,10 @@
 package beakjoon;
 
 import java.io.BufferedReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 // 18:12 ~ 19:27
@@ -17,14 +16,14 @@ public class Prob13549 {
     static int n, k, res, visit[];
 
     static void seek() {
-        Queue<Integer> q = new LinkedList<>();
+        Deque<Integer> q = new ArrayDeque<>();
 
         visit[n] = 0;
-        q.add(n);
+        q.addFirst(n);
 
         while (!q.isEmpty()) {
 
-            int curr = q.poll();
+            int curr = q.removeFirst();
             // System.out.println("visit " + curr);
             if (curr == k) {
                 res = visit[curr];
@@ -36,6 +35,8 @@ public class Prob13549 {
             for (int i = 0; i < 3; i++) {
                 if (toVisit[i] >= 0 && toVisit[i] <= 100000
                         && (visit[toVisit[i]] == -1 || visit[toVisit[i]] > time[i])) {
+                    // 아래 설명보다는 디큐로 우선순위를 정하는 것이 더 정확하다
+                    // 깨달음 전 설명
                     // +1 or -1로 이미 접근을 하면 visited 표시가된다.
                     // 근데 *2로 나중에 접근하면
                     // +1 or -1로 접근 방법보다 시간이 적게 걸리지만 표시를 못한다.
@@ -44,7 +45,10 @@ public class Prob13549 {
                     visit[toVisit[i]] = time[i];
                     // 내가 큐에 들어가기 전에 값을 설정하도록 해놓아서
                     // 2로 답이 나올 수도 있는 것이 정답으로 이미 설정 되어있었음
-                    q.add(toVisit[i]);
+                    if (i == 2)
+                        q.addFirst(toVisit[i]);
+                    else
+                        q.addLast(toVisit[i]);
                     // System.out.println(toVisit[i] + " visit[toVisit[i]]: " + visit[toVisit[i]]);
                 }
             }
@@ -69,3 +73,4 @@ public class Prob13549 {
         System.out.println(res);
     }
 }
+// 더 정확한 방법은 디큐로 우선순위를 앞으로 보내는 것이다.!!!!!!!!!!!!!!!!!!!!
