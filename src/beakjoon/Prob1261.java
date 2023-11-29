@@ -35,26 +35,34 @@ public class Prob1261 {
             }
         }
 
-        mapWallCnt[0][0] = 0;
-        Deque<int[]> stack = new LinkedList<>();
-        stack.push(new int[] { 0, 0, 0 });
-        while (!stack.isEmpty()) {
-            int[] curr = stack.pollLast();
+        Deque<int[]> deque = new LinkedList<>();
+        deque.push(new int[] { 0, 0, 0 });
+        while (!deque.isEmpty()) {
+            int[] curr = deque.pollLast();
             int y = curr[0];
             int x = curr[1];
             int wallCnt = curr[2];
 
+            if (mapWallCnt[y][x] <= wallCnt) {
+                continue;
+            }
+
+            mapWallCnt[y][x] = wallCnt;
+
             if (y == N - 1 && x == M - 1) {
                 continue;
             }
+
             for (int i = 0; i < 4; i++) {
                 int nexY = y + dirY[i];
                 int nexX = x + dirX[i];
                 if (nexY >= 0 && nexY < N && nexX >= 0 && nexX < M) {
-                    int nexWallCnt = (map[nexY][nexX] == 1) ? wallCnt + 1 : wallCnt;
-                    if (mapWallCnt[nexY][nexX] > nexWallCnt) {
-                        mapWallCnt[nexY][nexX] = nexWallCnt;
-                        stack.push(new int[] { nexY, nexX, nexWallCnt });
+                    int[] arr = { nexY, nexX, wallCnt };
+                    if (map[nexY][nexX] == 0 && mapWallCnt[nexY][nexX] > wallCnt) {
+                        deque.addLast(arr);
+                    } else if (map[nexY][nexX] == 1 && mapWallCnt[nexY][nexX] > wallCnt + 1) {
+                        arr[2] += 1;
+                        deque.addFirst(arr);
                     }
                 }
             }
