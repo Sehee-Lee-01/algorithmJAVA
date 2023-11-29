@@ -3,37 +3,63 @@ package beakjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
-// 11:01
-// 때로는 펜으로 풀어보는 것도 좋은 것 같네요...
+// 10:25
+// bfs로 풀었습니당!
 public class Prob1261 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
     static StringBuilder sb = new StringBuilder();
-    static int DIV = 1_000_000_000, N, K;
-    static long totalSum = 0, dpSum[][];
+    static int N, M, defaultWallCnt;
+    static int[] dirY = { -1, 1, 0, 0 }, dirX = { 0, 0, -1, 1 };
+    static int[][] map, mapWallCnt;
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
-
+        M = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
-        dpSum = new long[K + 1][N + 1];
-        for (int i = 0; i <= N; i++) {
-            dpSum[0][i] = 0;
-        }
+        map = new int[N][M];
+        mapWallCnt = new int[N][M];
+        defaultWallCnt = N * M + 1;
 
-        for (int i = 0; i <= K; i++) {
-            dpSum[i][0] = 1;
-        }
-
-        for (int i = 1; i <= K; i++) {
-            for (int j = 1; j <= N; j++) {
-                dpSum[i][j] = (dpSum[i - 1][j] + dpSum[i][j - 1]) % DIV;
+        for (int i = 0; i < N; i++) {
+            char[] row = br.readLine().toCharArray();
+            for (int j = 0; j < M; j++) {
+                map[i][j] = row[j] - '0';
+                mapWallCnt[i][j] = defaultWallCnt;
             }
         }
 
-        System.out.println(dpSum[K][N]);
+        mapWallCnt[0][0] = 0;
+        Deque<int[]> stack = new LinkedList<>();
+        stack.push(new int[] { 0, 0, 0 });
+        while (!stack.isEmpty()) {
+            int[] curr = stack.pollLast();
+            int y = curr[0];
+            int x = curr[1];
+            int wallCnt = curr[2];
+
+            if (y == N - 1 && x == M - 1) {
+                continue;
+            }
+            for (int i = 0; i < 4; i++) {
+                int nexY = y + dirY[i];
+                int nexX = x + dirX[i];
+                if (nexY >= 0 && nexY < N && nexX >= 0 && nexX < M) {
+                    int nexWallCnt = (map[nexY][nexX] == 1) ? wallCnt + 1 : wallCnt;
+                    if (mapWallCnt[nexY][nexX] > nexWallCnt) {
+                        mapWallCnt[nexY][nexX] = nexWallCnt;
+                        stack.push(new int[] { nexY, nexX, nexWallCnt });
+                    }
+                }
+            }
+        }
+        System.out.println(mapWallCnt[N - 1][M - 1]);
+
     }
 }
